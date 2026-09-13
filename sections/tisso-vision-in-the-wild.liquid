@@ -1,17 +1,4 @@
-{% comment %}
-  Tisso Vision in the Wild
-  ------------------------------------------
-  - Six configurable product blocks
-  - Color = button options
-  - Size = dropdown
-  - Other options = dropdown
-  - Dynamic variant selection
-  - Dynamic price update when variant changes
-  - Dynamic variant image
-  - Shopify Ajax Cart API
-  - Optional companion product:
-      Black + Medium => companion product added automatically
-{% endcomment %}
+
 
 {%- liquid
   assign companion_product = section.settings.companion_product
@@ -184,10 +171,6 @@
   </div>
 
 
-  <!-- =========================================
-       PRODUCT MODAL
-  ========================================== -->
-
   <div
     class="tisso-modal"
     data-product-modal
@@ -222,9 +205,6 @@
 
 
       <div class="tisso-modal__body">
-
-
-        <!-- PRODUCT IMAGE -->
 
         <div class="tisso-modal__media">
 
@@ -452,6 +432,11 @@
     text-align: left;
     background: none;
     padding: 6px 0 6px 15px;
+    transition: 0.3s all ease-in-out;
+    -webkit-transition: 0.3s all ease-in-out;
+    -o-transition: 0.3s all ease-in-out;
+    -moz-transition: 0.3s all ease-in-out;
+    -ms-transition: 0.3s all ease-in-out;
 }
 .tisso-color-buttons button:after{
     content: '';
@@ -535,7 +520,8 @@
     padding: 0 0 40px;
 }
 .tisso-color-button.is-selected{
-    border: 2px solid #000;
+    background: #000;
+    color: #fff;
 }
 @media(max-width: 1200px){
     .tisso-vision{
@@ -567,11 +553,6 @@
 
   'use strict';
 
-
-  /* ========================================================
-     SECTION
-  ======================================================== */
-
   const section =
     document.getElementById(
       'tisso-vision-{{ section.id }}'
@@ -582,12 +563,6 @@
     return;
   }
 
-
-  /*
-   * Prevent duplicate initialization
-   * when Shopify Theme Editor reloads section.
-   */
-
   if (
     section.dataset.initialized === 'true'
   ) {
@@ -595,12 +570,6 @@
   }
 
   section.dataset.initialized = 'true';
-
-
-  /* ========================================================
-     ELEMENTS
-  ======================================================== */
-
   const modal =
     section.querySelector(
       '[data-product-modal]'
@@ -660,11 +629,6 @@
   const companionVariantId =
     section.dataset.companionVariantId;
 
-
-  /* ========================================================
-     STATE
-  ======================================================== */
-
   let activeProduct = null;
 
   let selectedVariant = null;
@@ -673,10 +637,6 @@
 
   let toastTimer = null;
 
-
-  /* ========================================================
-     MONEY
-  ======================================================== */
 
   const formatMoney = (cents) => {
 
@@ -705,10 +665,6 @@
   };
 
 
-  /* ========================================================
-     TOAST
-  ======================================================== */
-
   const showToast = (message) => {
 
     if (!toast) {
@@ -736,11 +692,6 @@
       }, 3000);
 
   };
-
-
-  /* ========================================================
-     GET PRODUCT JSON
-  ======================================================== */
 
   const getProductFromCard =
     (card) => {
@@ -774,11 +725,6 @@
 
     };
 
-
-  /* ========================================================
-     GET CURRENT SELECTION
-  ======================================================== */
-
   const getCurrentSelections =
     () => {
 
@@ -806,16 +752,6 @@
 
       return selections;
     };
-
-
-  /* ========================================================
-     FIND VARIANT
-     
-     This is the important part.
-     
-     It compares every option against
-     Shopify's actual variant options.
-  ======================================================== */
 
   const findVariant =
     () => {
@@ -861,13 +797,6 @@
 
     };
 
-
-  /* ========================================================
-     UPDATE PRICE
-     
-     Price is updated EVERY time Color or Size changes.
-  ======================================================== */
-
   const updatePrice =
     (variant) => {
 
@@ -903,22 +832,11 @@
 
     };
 
-
-  /* ========================================================
-     UPDATE VARIANT
-  ======================================================== */
-
   const updateVariantUI =
     () => {
 
       selectedVariant =
         findVariant();
-
-
-      /*
-       * No matching variant.
-       */
-
       if (!selectedVariant) {
 
         modalStatus.textContent =
@@ -932,20 +850,9 @@
         return;
       }
 
-
-      /*
-       * IMPORTANT:
-       * Update price immediately.
-       */
-
       updatePrice(
         selectedVariant
       );
-
-
-      /*
-       * Update image.
-       */
 
       if (
         selectedVariant.featured_image
@@ -955,11 +862,6 @@
           selectedVariant.featured_image;
 
       }
-
-
-      /*
-       * Availability.
-       */
 
       if (
         !selectedVariant.available
@@ -985,11 +887,6 @@
       }
 
     };
-
-
-  /* ========================================================
-     CREATE DROPDOWN
-  ======================================================== */
 
   const createDropdown =
     (
@@ -1062,13 +959,6 @@
 
         }
       );
-
-
-      /*
-       * Select the current first available
-       * variant's value.
-       */
-
       if (firstVariant) {
 
         const initialValue =
@@ -1085,11 +975,6 @@
         }
 
       }
-
-
-      /*
-       * PRICE UPDATE WHEN DROPDOWN CHANGES
-       */
 
       select.addEventListener(
         'change',
@@ -1119,11 +1004,6 @@
       );
 
     };
-
-
-  /* ========================================================
-     CREATE COLOR BUTTONS
-  ======================================================== */
 
   const createColorButtons =
     (
@@ -1183,11 +1063,6 @@
           button.dataset.value =
             value;
 
-
-          /*
-           * First variant's color selected.
-           */
-
           if (
             firstVariant &&
             firstVariant[
@@ -1200,15 +1075,6 @@
             );
 
           }
-
-
-          /*
-           * COLOR CHANGE
-           *
-           * Change the selected color,
-           * find the exact variant,
-           * update price immediately.
-           */
 
           button.addEventListener(
             'click',
@@ -1232,14 +1098,6 @@
               button.classList.add(
                 'is-selected'
               );
-
-
-              /*
-               * We create/update a hidden
-               * select so the same variant
-               * matching system works for
-               * both buttons and dropdowns.
-               */
 
               let hiddenSelect =
                 modalOptions.querySelector(
@@ -1292,11 +1150,6 @@
       wrapper.appendChild(
         buttons
       );
-
-
-      /*
-       * Create hidden select for Color.
-       */
 
       const hiddenSelect =
         document.createElement(
@@ -1353,15 +1206,6 @@
 
     };
 
-
-  /* ========================================================
-     RENDER OPTIONS
-     
-     COLOR = BUTTONS
-     SIZE = DROPDOWN
-     EVERYTHING ELSE = DROPDOWN
-  ======================================================== */
-
   const renderOptions =
     (product) => {
 
@@ -1400,11 +1244,6 @@
               .trim()
               .toLowerCase();
 
-
-          /*
-           * COLOR = BUTTONS
-           */
-
           if (
             optionName === 'color' ||
             optionName === 'colour'
@@ -1417,10 +1256,6 @@
             );
 
           }
-
-          /*
-           * SIZE = DROPDOWN
-           */
 
           else {
 
@@ -1436,11 +1271,6 @@
       );
 
     };
-
-
-  /* ========================================================
-     OPEN MODAL
-  ======================================================== */
 
   const openModal =
     (
@@ -1476,20 +1306,9 @@
 
       modalImage.alt =
         product.title;
-
-
-      /*
-       * Build Color / Size controls.
-       */
-
       renderOptions(
         product
       );
-
-
-      /*
-       * Find initial variant.
-       */
 
       updateVariantUI();
 
@@ -1532,12 +1351,6 @@
       );
 
     };
-
-
-  /* ========================================================
-     CLOSE MODAL
-  ======================================================== */
-
   const closeModal =
     () => {
 
@@ -1576,12 +1389,6 @@
       }
 
     };
-
-
-  /* ========================================================
-     ADD TO CART
-  ======================================================== */
-
   const addToCart =
     async (items) => {
 
@@ -1620,15 +1427,9 @@
 
       }
 
-
       return data;
 
     };
-
-
-  /* ========================================================
-     BLACK + MEDIUM CHECK
-  ======================================================== */
 
   const requiresCompanionProduct =
     (variant) => {
@@ -1658,12 +1459,6 @@
       );
 
     };
-
-
-  /* ========================================================
-     SUBMIT
-  ======================================================== */
-
   const handleSubmit =
     async (event) => {
 
@@ -1702,12 +1497,6 @@
           }
 
         ];
-
-
-        /*
-         * BLACK + MEDIUM
-         * automatically add companion.
-         */
 
         if (
           requiresCompanionProduct(
@@ -1771,11 +1560,6 @@
 
         }
 
-
-        /*
-         * Notify theme.
-         */
-
         document.dispatchEvent(
           new CustomEvent(
             'cart:updated',
@@ -1786,12 +1570,6 @@
             }
           )
         );
-
-
-        /*
-         * Try to open cart drawer.
-         */
-
         const cartDrawer =
           document.querySelector(
             'cart-drawer'
@@ -1830,12 +1608,6 @@
       }
 
     };
-
-
-  /* ========================================================
-     PRODUCT CARDS
-  ======================================================== */
-
   section
     .querySelectorAll(
       '[data-product-card]'
@@ -1874,11 +1646,6 @@
       }
     );
 
-
-  /* ========================================================
-     CLOSE BUTTONS
-  ======================================================== */
-
   modal
     .querySelectorAll(
       '[data-modal-close]'
@@ -1893,11 +1660,6 @@
 
       }
     );
-
-
-  /* ========================================================
-     ESCAPE
-  ======================================================== */
 
   document.addEventListener(
     'keydown',
@@ -1917,11 +1679,6 @@
     }
   );
 
-
-  /* ========================================================
-     FORM
-  ======================================================== */
-
   productForm.addEventListener(
     'submit',
     handleSubmit
@@ -1936,51 +1693,38 @@
 
 {
   "name": "Tisso vision in the wild",
-
   "tag": "section",
-
   "class": "section-tisso-vision",
-
   "settings": [
-
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
       "default": "Tisso vision in the wild"
     },
-
     {
       "type": "color",
       "id": "background_color",
       "label": "Background",
       "default": "#ffffff"
     },
-
     {
       "type": "product",
       "id": "companion_product",
       "label": "Automatic companion product",
       "info": "This product is automatically added when the selected variant contains both Black and Medium. Select Soft Winter Jacket here."
     }
-
   ],
-
   "blocks": [
-
     {
       "type": "product",
-
       "name": "Product",
-
       "settings": [
-
         {
           "type": "product",
           "id": "product",
           "label": "Product"
         },
-
         {
           "type": "range",
           "id": "hotspot_x",
@@ -1991,7 +1735,6 @@
           "unit": "%",
           "default": 75
         },
-
         {
           "type": "range",
           "id": "hotspot_y",
@@ -2002,52 +1745,35 @@
           "unit": "%",
           "default": 25
         }
-
       ]
-
     }
-
   ],
-
   "max_blocks": 6,
-
   "presets": [
-
     {
       "name": "Tisso vision in the wild",
-
       "blocks": [
-
         {
           "type": "product"
         },
-
         {
           "type": "product"
         },
-
         {
           "type": "product"
         },
-
         {
           "type": "product"
         },
-
         {
           "type": "product"
         },
-
         {
           "type": "product"
         }
-
       ]
-
     }
-
   ]
-
 }
 
 {% endschema %}
