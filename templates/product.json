@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "main": {
       "type": "product-information",
@@ -30,6 +31,15 @@
           },
           "blocks": {}
         },
+        "wishlist_fade_my_wishlist_wishlist_btn_i6kyY4": {
+          "type": "shopify://apps/wishlist-fade-my-wishlist/blocks/wishlist-btn/019df433-6d2f-75cc-9433-af8cf264ff4b",
+          "settings": {
+            "button_font_size": 16,
+            "button_color": "#000000",
+            "button_radius": 5,
+            "custom_css": ""
+          }
+        },
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
@@ -38,6 +48,7 @@
             "media_columns": "two",
             "image_gap": 4,
             "large_first_image": false,
+            "icons_style": "arrow",
             "slideshow_controls_style": "counter",
             "slideshow_mobile_controls_style": "dots",
             "thumbnail_position": "right",
@@ -116,6 +127,7 @@
                 "border_opacity": 100,
                 "border_color": "",
                 "border_radius": 0,
+                "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
                 "padding-block-start": 0,
@@ -310,7 +322,8 @@
         }
       },
       "block_order": [
-        "disclosures_g9mWze"
+        "disclosures_g9mWze",
+        "wishlist_fade_my_wishlist_wishlist_btn_i6kyY4"
       ],
       "settings": {
         "content_width": "content-center-aligned",
