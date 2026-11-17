@@ -96,6 +96,15 @@
             "padding-inline-end": 0
           },
           "blocks": {
+            "wishlist_fade_my_wishlist_wishlist_btn_4KxgmP": {
+              "type": "shopify://apps/wishlist-fade-my-wishlist/blocks/wishlist-btn/019df433-6d2f-75cc-9433-af8cf264ff4b",
+              "settings": {
+                "button_font_size": 16,
+                "button_color": "#000000",
+                "button_radius": 5,
+                "custom_css": ""
+              }
+            },
             "group_icgrde": {
               "type": "group",
               "name": "t:names.header",
@@ -313,6 +322,7 @@
             }
           },
           "block_order": [
+            "wishlist_fade_my_wishlist_wishlist_btn_4KxgmP",
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_R3rGDr",
